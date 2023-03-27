@@ -25,7 +25,15 @@ build/
 !.gitignore
 
 # Don't ignore anything in the tests folder.
-!tests/*.*
+!tests/*/*.*
+# !examples/*/*.*
+# !examples/
+
+# Ignore examples
+examples/**
+
+# ignore .funky files
+*.funky
 
 # useful docs on gitignore:
 # https://git-scm.com/docs/gitignore
