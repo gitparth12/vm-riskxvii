@@ -161,8 +161,8 @@ void lh(blob* p_vm, uint32_t instruction) {
     }
     else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
-        int8_t first = p_vm->data_mem[memory_addr]; // Read right 8 bits
-        int16_t second = p_vm->data_mem[memory_addr+1] << 8; // Read left 8 bits
+        int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
+        int32_t second = p_vm->data_mem[memory_addr+1] << 8; // Read second 8 bits
         int32_t combined = ((first | second) << 16) >> 16;
         p_vm->registers[rd] = combined; // Sign extend and store
     }
@@ -174,15 +174,66 @@ void lh(blob* p_vm, uint32_t instruction) {
 }
 
 void lw(blob* p_vm, uint32_t instruction) {
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
+    int32_t memory_addr = p_vm->registers[rs1] + imm;
+    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
+        call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
+        int32_t second = p_vm->data_mem[++memory_addr] << 8; // Read second 8 bits
+        int32_t third = p_vm->data_mem[++memory_addr] << 16;
+        int32_t fourth = p_vm->data_mem[++memory_addr] << 24;
+        p_vm->registers[rd] = (first | second | third | fourth); // Store in R[rd]
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
+    }
     p_vm->PC += 4;
 }
 
 void lbu(blob* p_vm, uint32_t instruction) {
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
+    int32_t memory_addr = p_vm->registers[rs1] + imm;
+    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
+        call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        p_vm->registers[rd] = (uint8_t) p_vm->data_mem[memory_addr]; // Store unsigned value in R[rd]
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
+    }
     p_vm->PC += 4;
 }
 
 void lhu(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
+    int32_t memory_addr = p_vm->registers[rs1] + imm;
+    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
+        call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
+        int32_t second = p_vm->data_mem[memory_addr+1] << 8; // Read second 8 bits
+        int32_t combined = (first | second);
+        p_vm->registers[rd] = (uint16_t) combined; // Store value in R[rd]
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
+    }
 }
 
 void sb(blob* p_vm, uint32_t instruction) {
@@ -222,51 +273,189 @@ void sb(blob* p_vm, uint32_t instruction) {
 }
 
 void sh(blob* p_vm, uint32_t instruction) {
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = ((get_number(instruction, 7, 5) | (get_number(instruction, 25, 7) << 5)));
+    imm = (imm << 20) >> 20; // Sign extend
+    uint32_t memory_addr = p_vm->registers[rs1] + imm;
+    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
+        call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 2);
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
+    }
+    switch (memory_addr) {
+        case 0x800:
+            printf("%c", p_vm->registers[rs2]);
+            break;
+        case 0x804:
+            printf("%d", p_vm->registers[rs2]);
+            break;
+        case 0x808:
+            printf("%d", (uint32_t) p_vm->registers[rs2]);
+            break;
+        case 0x80c:
+            printf("CPU Halt Requested\n");
+            exit(0);
+            break;
+    }
     p_vm->PC += 4;
 }
 
 void sw(blob* p_vm, uint32_t instruction) {
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = ((get_number(instruction, 7, 5) | (get_number(instruction, 25, 7) << 5)));
+    imm = (imm << 20) >> 20; // Sign extend
+    uint32_t memory_addr = p_vm->registers[rs1] + imm;
+    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
+        call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 4);
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
+    }
+    switch (memory_addr) {
+        case 0x800:
+            printf("%c", p_vm->registers[rs2]);
+            break;
+        case 0x804:
+            printf("%d", p_vm->registers[rs2]);
+            break;
+        case 0x808:
+            printf("%d", (uint32_t) p_vm->registers[rs2]);
+            break;
+        case 0x80c:
+            printf("CPU Halt Requested\n");
+            exit(0);
+            break;
+    }
     p_vm->PC += 4;
 }
 
 void slt(blob* p_vm, uint32_t instruction) {
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    p_vm->registers[rd] = (p_vm->registers[rs1] < p_vm->registers[rs2]) ? 1 : 0;
     p_vm->PC += 4;
 }
 
 void slti(blob* p_vm, uint32_t instruction) {
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
+    p_vm->registers[rd] = (p_vm->registers[rs1] < imm) ? 1 : 0;
     p_vm->PC += 4;
 }
 
 void sltu(blob* p_vm, uint32_t instruction) {
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    p_vm->registers[rd] = ((uint32_t) p_vm->registers[rs1] < (uint32_t) p_vm->registers[rs2]) ? 1 : 0;
     p_vm->PC += 4;
 }
 
 void sltiu(blob* p_vm, uint32_t instruction) {
+    uint32_t rd = get_number(instruction, 7, 5);
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    int32_t imm = get_number(instruction, 20, 12);
+    p_vm->registers[rd] = ((uint32_t) p_vm->registers[rs1] < imm) ? 1 : 0;
     p_vm->PC += 4;
 }
 
 void beq(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = get_number(instruction, 8, 4) << 1;
+    imm = (imm | (get_number(instruction, 25, 6) << 5));
+    imm = (imm | (get_number(instruction, 7, 1) << 11));
+    imm = (imm | (get_number(instruction, 31, 1) << 12));
+    imm = (imm << 20) >> 20; // Sign extend
+    if (p_vm->registers[rs1] == p_vm->registers[rs2])
+        p_vm->PC += (imm << 1);
+    else
+        p_vm->PC += 4;
 }
 
 void bne(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = get_number(instruction, 8, 4) << 1;
+    imm = (imm | (get_number(instruction, 25, 6) << 5));
+    imm = (imm | (get_number(instruction, 7, 1) << 11));
+    imm = (imm | (get_number(instruction, 31, 1) << 12));
+    imm = (imm << 20) >> 20; // Sign extend
+    if (p_vm->registers[rs1] != p_vm->registers[rs2])
+        p_vm->PC += (imm << 1);
+    else
+        p_vm->PC += 4;
 }
 
 void blt(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = get_number(instruction, 8, 4) << 1;
+    imm = (imm | (get_number(instruction, 25, 6) << 5));
+    imm = (imm | (get_number(instruction, 7, 1) << 11));
+    imm = (imm | (get_number(instruction, 31, 1) << 12));
+    imm = (imm << 20) >> 20; // Sign extend
+    if (p_vm->registers[rs1] < p_vm->registers[rs2])
+        p_vm->PC += (imm << 1);
+    else
+        p_vm->PC += 4;
 }
 
 void bltu(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = get_number(instruction, 8, 4) << 1;
+    imm = (imm | (get_number(instruction, 25, 6) << 5));
+    imm = (imm | (get_number(instruction, 7, 1) << 11));
+    imm = (imm | (get_number(instruction, 31, 1) << 12));
+    imm = imm; // Sign extend
+    if ((uint32_t) p_vm->registers[rs1] < (uint32_t) p_vm->registers[rs2])
+        p_vm->PC += (imm << 1);
+    else
+        p_vm->PC += 4;
 }
 
 void bge(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = get_number(instruction, 8, 4) << 1;
+    imm = (imm | (get_number(instruction, 25, 6) << 5));
+    imm = (imm | (get_number(instruction, 7, 1) << 11));
+    imm = (imm | (get_number(instruction, 31, 1) << 12));
+    imm = (imm << 20) >> 20; // Sign extend
+    if (p_vm->registers[rs1] >= p_vm->registers[rs2])
+        p_vm->PC += (imm << 1);
+    else
+        p_vm->PC += 4;
 }
 
 void bgeu(blob* p_vm, uint32_t instruction) {
-    p_vm->PC += 4;
+    uint32_t rs1 = get_number(instruction, 15, 5);
+    uint32_t rs2 = get_number(instruction, 20, 5);
+    int32_t imm = get_number(instruction, 8, 4) << 1;
+    imm = (imm | (get_number(instruction, 25, 6) << 5));
+    imm = (imm | (get_number(instruction, 7, 1) << 11));
+    imm = (imm | (get_number(instruction, 31, 1) << 12));
+    imm = (imm << 20) >> 20; // Sign extend
+    if ((uint32_t) p_vm->registers[rs1] < p_vm->registers[rs2])
+        p_vm->PC += (imm << 1);
+    else
+        p_vm->PC += 4;
 }
 
 void jal(blob* p_vm, uint32_t instruction) {
