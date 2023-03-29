@@ -198,7 +198,7 @@ void sb(blob* p_vm, uint32_t instruction) {
             printf("%d\n", (uint32_t) p_vm->registers[rs2]);
             break;
         case 0x80c:
-            printf("CPU Halt Requested\n");
+            printf("HCPU Halt Requested\n");
             exit(0);
             break;
     }
