@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     fread(p_vm->inst_mem, sizeof(uint32_t), INST_MEM_SIZE, pbinary);
     fread(p_vm->data_mem, sizeof(unsigned char), DATA_MEM_SIZE, pbinary);
     
-    for (size_t i = 0; i < INST_MEM_SIZE; i++) {
+    while (1) {
         execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
         // register_dump(p_vm, p_vm->inst_mem[i]);
         //printf("\n");
