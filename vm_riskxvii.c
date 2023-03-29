@@ -1,10 +1,14 @@
 #include "helper_functions.h"
 #include "vm_functions.h"
+#include <string.h>
 
 int main(int argc, char *argv[]) {
     // Initialising the struct
     blob vm;
     blob* p_vm = &vm;
+    memset(p_vm->registers, 0, sizeof(p_vm->registers));
+    p_vm->PC = 0;
+
     // Creating a file pointer for the binary input
     FILE* pbinary;
     if(argc == 2) {
@@ -21,6 +25,7 @@ int main(int argc, char *argv[]) {
     
     for (size_t i = 0; i < INST_MEM_SIZE; i++) {
         execute_inst(p_vm, p_vm->inst_mem[i]);
+        p_vm->PC += 4;
     }
     uint32_t add_inst = 0b00000000100100111000000100110011;
     add(p_vm, add_inst);

@@ -1,4 +1,5 @@
 #include "helper_functions.h"
+#include "vm_functions.h"
 
 void execute_inst(blob* p_vm, uint32_t instruction) {
     // TYPE R -> Same opcode
@@ -6,115 +7,149 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         // Comparing func3
         if (compare_bits(instruction, FUNC3_START, 3, 0b0)) {
             // Comparing func7
-            if (compare_bits(instruction, FUNC7_START, 7, 0b0))
-                printf("add\n");
-            else
-                printf("sub\n");
+            if (compare_bits(instruction, FUNC7_START, 7, 0b0)) {
+                add(p_vm, instruction);
+                // printff("add\n");
+            }
+            else {
+                sub(p_vm, instruction);
+                // printff("sub\n");
+            }
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b101)) { // 5
             // Comparing func7
-            if (compare_bits(instruction, FUNC7_START, 7, 0b0))
-                printf("srl\n");
-            else
-                printf("sra\n");
+            if (compare_bits(instruction, FUNC7_START, 7, 0b0)) {
+                srl(p_vm, instruction);
+                // printff("srl\n");
+            }
+            else {
+                sra(p_vm, instruction);
+                // printff("sra\n");
+            }
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b100)) { // 4
-            printf("xor\n");
+            xor(p_vm, instruction);
+            // printff("xor\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b110)) { // 6
-            printf("or\n");
+            or(p_vm, instruction);
+            // printff("or\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b111)) { // 7
-            printf("and\n");
+            and(p_vm, instruction);
+            // printff("and\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b001)) { // 1
-            printf("sll\n");
+            sll(p_vm, instruction);
+            // printff("sll\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b010)) { // 2
-            printf("slt\n");
+            slt(p_vm, instruction);
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b011)) { // 3
-            printf("sltu\n");
+            sltu(p_vm, instruction);
+            // printff("sltu\n");
         }
     }
     // TYPE I -> Multiple opcodes
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0010011)) { // 19
         // Comparing func3
         if (compare_bits(instruction, FUNC3_START, 3, 0b0)) {
-            printf("addi\n");
+            addi(p_vm, instruction);
+            // printff("addi\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b100)) { // 4
-            printf("xori\n");
+            xori(p_vm, instruction);
+            // printff("xori\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b110)) { // 6
-            printf("ori\n");
+            ori(p_vm, instruction);
+            // printff("ori\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b111)) { // 7
-            printf("andi\n");
+            andi(p_vm, instruction);
+            // printff("andi\n");
         }
     }
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0000011)) { // 3
         // Comparing func3
         if (compare_bits(instruction, FUNC3_START, 3, 0b0)) {
-            printf("lb\n");
+            lb(p_vm, instruction);
+            // printff("lb\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b001)) { // 1
-            printf("lh\n");
+            lh(p_vm, instruction);
+            // printff("lh\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b010)) { // 2
-            printf("lw\n");
+            lw(p_vm, instruction);
+            // printff("lw\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b100)) { // 4
-            printf("lbu\n");
+            lbu(p_vm, instruction);
+            // printff("lbu\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b101)) { // 5
-            printf("lhu\n");
+            lhu(p_vm, instruction);
+            // printff("lhu\n");
         }
     }
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b1100111)) { // 103
-        printf("jalr\n");
+        jalr(p_vm, instruction);
+        // printff("jalr\n");
     }
     // TYPE U -> Unique opcode, one instruction only
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0110111)) { // 55
-        printf("lui\n");
+        lui(p_vm, instruction);
+        // printff("lui\n");
     }
     // TYPE UJ -> Unique opcode, one instruction only
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b1101111)) { // 111
-        printf("jal\n");
+        jal(p_vm, instruction);
+        // printff("jal\n");
     }
     // TYPE S -> Same opcode
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0100011)) { // 35
         // Comparing func3
         if (compare_bits(instruction, FUNC3_START, 3, 0b0)) {
-            printf("sb\n");
+            sb(p_vm, instruction);
+            // printff("sb\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b001)) { // 1
-            printf("sh\n");
+            sh(p_vm, instruction);
+            // printff("sh\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b010)) { // 2
-            printf("sw\n");
+            sw(p_vm, instruction);
+            // printff("sw\n");
         }
     }
     // TYPE SB -> Same opcode
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b1100011)) { // 99
         // Comparing func3
         if (compare_bits(instruction, FUNC3_START, 3, 0b0)) {
-            printf("beq\n");
+            beq(p_vm, instruction);
+            // printff("beq\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b001)) { // 1
-            printf("bne\n");
+            bne(p_vm, instruction);
+            // printff("bne\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b100)) { // 4
-            printf("blt\n");
+            blt(p_vm, instruction);
+            // printff("blt\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b110)) { // 6
-            printf("bltu\n");
+            bltu(p_vm, instruction);
+            // printff("bltu\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b101)) { // 5
-            printf("bge\n");
+            bge(p_vm, instruction);
+            // printff("bge\n");
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b111)) { // 7
-            printf("bgeu\n");
+            bgeu(p_vm, instruction);
+            // printff("bgeu\n");
         }
     }
 }
@@ -149,4 +184,19 @@ void print_inst(size_t const size, void* ptr) {
         }
     }
     printf("\n");
+}
+
+void call_illegal_op(blob* p_vm, uint32_t instruction) {
+    printf("Illegal Operation: %X;\n", instruction);
+    // Register Dump
+    register_dump(p_vm, instruction);
+    // Terminate
+    exit(1);
+}
+
+void register_dump(blob* p_vm, uint32_t instruction) {
+    printf("PC = %x;\n", p_vm->PC);
+    for (size_t i = 0; i < 32; i++) {
+        printf("R[%lu] = %x;\n", i, p_vm->registers[i]);
+    }
 }

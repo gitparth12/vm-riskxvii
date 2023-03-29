@@ -17,6 +17,7 @@ extern void sll(blob* p_vm, uint32_t instruction);
 extern void srl(blob* p_vm, uint32_t instruction);
 extern void sra(blob* p_vm, uint32_t instruction);
 extern void lb(blob* p_vm, uint32_t instruction);
+extern void lh(blob* p_vm, uint32_t instruction);
 extern void lw(blob* p_vm, uint32_t instruction);
 extern void lbu(blob* p_vm, uint32_t instruction);
 extern void lhu(blob* p_vm, uint32_t instruction);
