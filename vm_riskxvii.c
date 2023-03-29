@@ -28,8 +28,8 @@ int main(int argc, char *argv[]) {
         // register_dump(p_vm, p_vm->inst_mem[i]);
         //printf("\n");
     }
-    uint32_t add_inst = 0b00000000100100111000000100110011;
-    add(p_vm, add_inst);
+    // uint32_t add_inst = 0b00000000100100111000000100110011;
+    // add(p_vm, add_inst);
 
     return 0;
 }
