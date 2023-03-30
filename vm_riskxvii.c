@@ -25,9 +25,28 @@ int main(int argc, char *argv[]) {
     
     while (1) {
         execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
-        // register_dump(p_vm, p_vm->inst_mem[i]);
-        //printf("\n");
+        // register_dump(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
+        // printf("PC: %d\n", p_vm->PC);
+        // printf("\n");
+        if (p_vm->PC > 0x100) {
+            printf("PC got too big, exiting.\n");
+            exit(1);
+        }
     }
+    // for (int i = 0; i < 20; i++) {
+    //     uint32_t inst = p_vm->inst_mem[p_vm->PC / 4];
+    //     printf("Instruction Binary: ");
+    //     print_inst(4, &inst);
+    //     register_dump(p_vm, inst);
+    //     execute_inst(p_vm, inst);
+    //     register_dump(p_vm, inst);
+    //     printf("\n---------------------------------\n");
+    // }
+    // uint32_t inst = p_vm->inst_mem[p_vm->PC / 4];
+    // print_inst(4, &inst);
+    // register_dump(p_vm, inst);
+    // execute_inst(p_vm, inst);
+    // register_dump(p_vm, inst);
     // uint32_t add_inst = 0b00000000100100111000000100110011;
     // add(p_vm, add_inst);
 

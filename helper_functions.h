@@ -32,7 +32,7 @@ typedef struct memory_bank {
 } memory_bank;
 
 extern void print_inst(size_t const size, void* ptr);
-extern uint32_t get_number(uint32_t instruction, int start_pos, int n_bits);
+extern int32_t get_number(uint32_t instruction, int start_pos, int n_bits);
 // https://stackoverflow.com/questions/8011700/how-do-i-extract-specific-n-bits-of-a-32-bit-unsigned-integer-in-c
 extern bool compare_bits(uint32_t instruction, int start_pos, int n_bits, uint32_t bin_number);
 extern void execute_inst(blob* p_vm, uint32_t instruction);
