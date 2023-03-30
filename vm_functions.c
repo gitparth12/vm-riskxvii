@@ -28,7 +28,7 @@ void addi(blob* p_vm, uint32_t instruction) {
     uint32_t rs1 = get_number(instruction, 15, 5);
     // https://stackoverflow.com/questions/5814072/sign-extend-a-nine-bit-number-in-c
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
-    print_inst(4, &imm);
+    // print_inst(4, &imm);
     // printf("rd: %d, rs1: %d, imm: %d\n", rd, rs1, imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] + imm;
