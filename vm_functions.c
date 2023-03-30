@@ -16,11 +16,11 @@ void add(blob* p_vm, uint32_t instruction) {
     uint32_t rd = get_number(instruction, 7, 5);
     uint32_t rs1 = get_number(instruction, 15, 5);
     uint32_t rs2 = get_number(instruction, 20, 5);
-    // printf("rd: %d, rs1: %d, rs2: %d\n", rd, rs1, rs2);
+    printf("rd: %d, rs1: %d, rs2: %d\n", rd, rs1, rs2);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] + p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("add: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("add: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void addi(blob* p_vm, uint32_t instruction) {
@@ -29,11 +29,11 @@ void addi(blob* p_vm, uint32_t instruction) {
     // https://stackoverflow.com/questions/5814072/sign-extend-a-nine-bit-number-in-c
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
     // print_inst(4, &imm);
-    // printf("rd: %d, rs1: %d, imm: %d\n", rd, rs1, imm);
+    printf("rd: %d, rs1: %d, imm: %d\n", rd, rs1, imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] + imm;
     p_vm->PC += 4;
-    // printf("addi: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
+    printf("addi: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
 }
 
 void sub(blob* p_vm, uint32_t instruction) {
@@ -43,17 +43,17 @@ void sub(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] - p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("sub: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("sub: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void lui(blob* p_vm, uint32_t instruction) {
     uint32_t rd = get_number(instruction, 7, 5);
     int32_t imm = get_number(instruction, 12, 20) << 12;
-    // printf("rd: %d, imm: %d\n", rd, imm);
+    printf("rd: %d, imm: %d\n", rd, imm);
     if (rd != 0)
         p_vm->registers[rd] = imm;
     p_vm->PC += 4;
-    // printf("lui: rd: %d, imm: %d\n", p_vm->registers[rd], imm);
+    printf("lui: rd: %d, imm: %d\n", p_vm->registers[rd], imm);
 }
 
 void xor(blob* p_vm, uint32_t instruction) {
@@ -63,7 +63,7 @@ void xor(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] ^ p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("xor: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("xor: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void xori(blob* p_vm, uint32_t instruction) {
@@ -73,7 +73,7 @@ void xori(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] ^ imm;
     p_vm->PC += 4;
-    // printf("xori: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
+    printf("xori: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
 }
 
 void or(blob* p_vm, uint32_t instruction) {
@@ -83,7 +83,7 @@ void or(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] | p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("or: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("or: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void ori(blob* p_vm, uint32_t instruction) {
@@ -93,7 +93,7 @@ void ori(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] | imm;
     p_vm->PC += 4;
-    // printf("ori: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
+    printf("ori: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
 }
 
 void and(blob* p_vm, uint32_t instruction) {
@@ -103,7 +103,7 @@ void and(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] & p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("and: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("and: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void andi(blob* p_vm, uint32_t instruction) {
@@ -113,7 +113,7 @@ void andi(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] & imm;
     p_vm->PC += 4;
-    // printf("andi: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
+    printf("andi: rd: %d, rs1: %d, imm: %d\n", p_vm->registers[rd], p_vm->registers[rs1], imm);
 }
 
 void sll(blob* p_vm, uint32_t instruction) {
@@ -123,7 +123,7 @@ void sll(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] << p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("sll: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("sll: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void srl(blob* p_vm, uint32_t instruction) {
@@ -133,7 +133,7 @@ void srl(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->registers[rs1] >> p_vm->registers[rs2];
     p_vm->PC += 4;
-    // printf("srl: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("srl: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void sra(blob* p_vm, uint32_t instruction) {
@@ -146,7 +146,7 @@ void sra(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = combined;
     p_vm->PC += 4;
-    // printf("sra: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
+    printf("sra: rd: %d, rs1: %d, rs2: %d\n", p_vm->registers[rd], p_vm->registers[rs1], p_vm->registers[rs2]);
 }
 
 void lb(blob* p_vm, uint32_t instruction) {
@@ -219,7 +219,7 @@ void lw(blob* p_vm, uint32_t instruction) {
     uint32_t rs1 = get_number(instruction, 15, 5);
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
     int32_t memory_addr = p_vm->registers[rs1] + imm;
-    // printf("rd: %d, rs1: %d, imm: %d, memory_addr: %d\n", rd, rs1, imm, memory_addr);
+    printf("rd: %d, rs1: %d, imm: %d, memory_addr: %d\n", rd, rs1, imm, memory_addr);
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
     }
@@ -347,7 +347,7 @@ void sb(blob* p_vm, uint32_t instruction) {
             break;
     }
     p_vm->PC += 4;
-    // printf("sb: rs1: %d, rs2: %d, imm: %d, memory_addr: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm, memory_addr);
+    printf("sb: rs1: %d, rs2: %d, imm: %d, memory_addr: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm, memory_addr);
 }
 
 void sh(blob* p_vm, uint32_t instruction) {
@@ -464,15 +464,15 @@ void beq(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 7, 1) << 11));
     imm = (imm | (get_number(instruction, 31, 1) << 12));
     imm = (imm << 20) >> 20; // Sign extend
-    // printf("beq: ");
+    printf("beq: ");
    // print_inst(4, &imm);
-    // printf("rs1: %d, rs2: %d, imm: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm);
+    printf("rs1: %d, rs2: %d, imm: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm);
     if (p_vm->registers[rs1] == p_vm->registers[rs2])
         p_vm->PC += (imm << 1);
     else
         p_vm->PC += 4;
     
-    // printf("PC: %x\n", p_vm->PC);
+    printf("PC: %x\n", p_vm->PC);
 }
 
 void bne(blob* p_vm, uint32_t instruction) {
@@ -483,9 +483,9 @@ void bne(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 7, 1) << 11));
     imm = (imm | (get_number(instruction, 31, 1) << 12));
     imm = (imm << 20) >> 20; // Sign extend
-    // printf("bneq: ");
+    printf("bneq: ");
    //  print_inst(4, &imm);
-    // printf("rs1: %d, rs2: %d, imm: %d\n", rs1, rs2, imm);
+    printf("rs1: %d, rs2: %d, imm: %d\n", rs1, rs2, imm);
     if (p_vm->registers[rs1] != p_vm->registers[rs2])
         p_vm->PC += (imm << 1);
     else
@@ -554,11 +554,11 @@ void jal(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 20, 1) << 11));
     imm = (imm | (get_number(instruction, 12, 8) << 12));
     imm = (imm | (get_number(instruction, 31, 1) << 31));
-    // printf_inst(4, &imm);
+    printf_inst(4, &imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->PC + 4;
     p_vm->PC += (imm << 1);
-    // printf("jal: rd: %d, imm: %d, PC: %d\n", p_vm->registers[rd], imm, p_vm->PC);
+    printf("jal: rd: %d, imm: %d, PC: %d\n", p_vm->registers[rd], imm, p_vm->PC);
 }
 
 void jalr(blob* p_vm, uint32_t instruction) {
@@ -568,5 +568,5 @@ void jalr(blob* p_vm, uint32_t instruction) {
     if (rd != 0)
         p_vm->registers[rd] = p_vm->PC + 4;
     p_vm->PC = p_vm->registers[rs1] + imm;
-    // printf("jalr: rd: %d, rs1: %d, imm: %d\n", rd, rs1, imm);
+    printf("jalr: rd: %d, rs1: %d, imm: %d\n", rd, rs1, imm);
 }
