@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     //     }
     // }
 
-    for (int i = 0; i < 40; i++) {
+    for (int i = 0; i < 256; i++) {
         print_inst(4, &p_vm->inst_mem[i]);
     }
 
