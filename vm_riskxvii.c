@@ -35,8 +35,8 @@ int main(int argc, char *argv[]) {
     // }
 
     for (int i = 0; i < 256; i++) {
-        print_inst(p_vm, p_vm->inst_mem[i]);
-        execute_inst(p_vm, p_vm->inst_mem[i]);
+        print_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
+        execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
     }
 
     // while (1) {
