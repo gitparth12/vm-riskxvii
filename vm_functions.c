@@ -157,7 +157,11 @@ void lb(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+    if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
+        if (rd != 0)
+            p_vm->registers[rd] = (p_vm->inst_mem[memory_addr] & 0xff);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         if (rd != 0)
             p_vm->registers[rd] = (p_vm->data_mem[memory_addr] << 24) >> 24;
@@ -192,7 +196,11 @@ void lh(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+    if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
+        if (rd != 0)
+            p_vm->registers[rd] = (p_vm->inst_mem[memory_addr] & 0xff) | ((p_vm->inst_mem[memory_addr+1] << 8) & 0xffff);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
         int32_t second = p_vm->data_mem[memory_addr+1] << 8; // Read second 8 bits
@@ -231,7 +239,13 @@ void lw(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+
+    if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
+        if (rd != 0) {
+            p_vm->registers[rd] = (p_vm->inst_mem[memory_addr] & 0xff) | ((p_vm->inst_mem[memory_addr+1] << 8) & 0xffff) | ((p_vm->inst_mem[memory_addr+2] << 16) & 0xffffff) | ((p_vm->inst_mem[memory_addr+3] << 24) & 0xffffffff);
+        }
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
         int32_t second = (p_vm->data_mem[++memory_addr] & 0xff) << 8; // Read second 8 bits
