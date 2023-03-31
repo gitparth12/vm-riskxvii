@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     // Reading binary file into both arrays in our struct
     fread(p_vm->inst_mem, sizeof(uint32_t), INST_MEM_SIZE, pbinary);
-    fread(p_vm->data_mem, sizeof(unsigned char), DATA_MEM_SIZE, pbinary);
+    fread(p_vm->data_mem, sizeof(uint8_t), DATA_MEM_SIZE, pbinary);
     
     while (1) {
         execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
@@ -33,7 +33,9 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
     }
+
     // for (int i = 0; i < 30; i++) {
+    //     printf("PC: %x    |    ", p_vm->PC);
     //     uint32_t inst = p_vm->inst_mem[p_vm->PC / 4];
     //     printf("Instruction Binary: ");
     //     print_inst(4, &inst);
