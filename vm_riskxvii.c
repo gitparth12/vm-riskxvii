@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // for (int i = 0; i < 30; i++) {
+    // while (1) {
     //     printf("PC: %x    |    ", p_vm->PC);
     //     uint32_t inst = p_vm->inst_mem[p_vm->PC / 4];
     //     printf("Instruction Binary: ");

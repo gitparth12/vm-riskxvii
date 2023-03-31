@@ -349,7 +349,7 @@ void sb(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%lc", p_vm->registers[rs2]);
+            printf("%c", p_vm->registers[rs2]);
             break;
         case 0x804:
             printf("%d", p_vm->registers[rs2]);
@@ -385,7 +385,7 @@ void sh(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%lc", p_vm->registers[rs2]);
+            printf("%c", p_vm->registers[rs2]);
             break;
         case 0x804:
             printf("%d", p_vm->registers[rs2]);
@@ -420,7 +420,7 @@ void sw(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%lc", p_vm->registers[rs2]);
+            printf("%c", p_vm->registers[rs2]);
             break;
         case 0x804:
             printf("%d", p_vm->registers[rs2]);
@@ -479,12 +479,12 @@ void beq(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 25, 6) << 5));
     imm = (imm | (get_number(instruction, 7, 1) << 11));
     imm = (imm | (get_number(instruction, 31, 1) << 12));
-    // imm = (imm << 20) >> 20; // Sign extend
+    imm = (imm << 20) >> 20; // Sign extend
     // printf("beq: ");
    // print_inst(4, &imm);
     // printf("rs1: %d, rs2: %d, imm: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm);
     if (p_vm->registers[rs1] == p_vm->registers[rs2])
-        p_vm->PC += (imm << 1);
+        p_vm->PC += imm;
     else
         p_vm->PC += 4;
     
@@ -503,7 +503,7 @@ void bne(blob* p_vm, uint32_t instruction) {
    //  print_inst(4, &imm);
     // printf("rs1: %d, rs2: %d, imm: %d\n", rs1, rs2, imm);
     if (p_vm->registers[rs1] != p_vm->registers[rs2])
-        p_vm->PC += (imm << 1);
+        p_vm->PC += imm;
     else
         p_vm->PC += 4;
 }
