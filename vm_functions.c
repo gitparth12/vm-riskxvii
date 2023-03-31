@@ -246,13 +246,17 @@ void lw(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x812:
-            fread(&p_vm->registers[rd], sizeof(char), 1, stdin);
+            // fread(&p_vm->registers[rd], sizeof(char), 1, stdin);
+            if (rd != 0)
+                scanf("%lc", &p_vm->registers[rd]);
             break;
         case 0x816:
-            int32_t input;
-            scanf("%d", &input);
+            // int32_t input;
+            // scanf("%d", &input);
+            // if (rd != 0)
+            //     p_vm->registers[rd] = input;
             if (rd != 0)
-                p_vm->registers[rd] = input;
+                scanf("%d", &p_vm->registers[rd]);
             break;
     }
     p_vm->PC += 4;
