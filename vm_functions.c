@@ -341,6 +341,7 @@ void sb(blob* p_vm, uint32_t instruction) {
     int32_t imm = ((get_number(instruction, 7, 5) | (get_number(instruction, 25, 7) << 5)));
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
+
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
     }
@@ -575,6 +576,7 @@ void jal(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 20, 1) << 11));
     imm = (imm | (get_number(instruction, 12, 8) << 12));
     imm = (imm | (get_number(instruction, 31, 1) << 20));
+    printf("%d\n", imm);
     // print_bits(4, &imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->PC + 4;
