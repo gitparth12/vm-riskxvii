@@ -354,7 +354,7 @@ void sb(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%c", p_vm->registers[rs2]);
+            printf("%lc", p_vm->registers[rs2]);
             break;
         case 0x804:
             printf("%d", p_vm->registers[rs2]);
@@ -390,7 +390,7 @@ void sh(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%c", p_vm->registers[rs2]);
+            printf("%lc", p_vm->registers[rs2]);
             break;
         case 0x804:
             printf("%d", p_vm->registers[rs2]);
@@ -425,7 +425,7 @@ void sw(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%c", p_vm->registers[rs2]);
+            printf("%lc", p_vm->registers[rs2]);
             break;
         case 0x804:
             printf("%d", p_vm->registers[rs2]);
