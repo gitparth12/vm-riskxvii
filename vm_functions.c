@@ -573,7 +573,7 @@ void jal(blob* p_vm, uint32_t instruction) {
     int32_t imm = get_number(instruction, 21, 10) << 1;
     imm = (imm | (get_number(instruction, 20, 1) << 11));
     imm = (imm | (get_number(instruction, 12, 8) << 12));
-    imm = (imm | (get_number(instruction, 31, 1) << 31));
+    imm = (imm | (get_number(instruction, 31, 1) << 20));
     // print_inst(4, &imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->PC + 4;
