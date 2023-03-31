@@ -28,10 +28,10 @@ int main(int argc, char *argv[]) {
         // register_dump(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
         // printf("PC: %d\n", p_vm->PC);
         // printf("\n");
-        if (p_vm->PC > 0x100) {
-            printf("PC got too big, exiting.\n");
-            exit(1);
-        }
+        // if (p_vm->PC > 0x100) {
+        //     printf("PC got too big, exiting.\n");
+        //     exit(1);
+        // }
     }
 
     // while (1) {
