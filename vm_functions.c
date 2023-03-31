@@ -580,7 +580,7 @@ void jal(blob* p_vm, uint32_t instruction) {
     // print_bits(4, &imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->PC + 4;
-    p_vm->PC += imm;
+    p_vm->PC += (imm << 1);
     // printf("jal: rd: %d, imm: %d, PC: %d\n", p_vm->registers[rd], imm, p_vm->PC);
 }
 
