@@ -39,8 +39,8 @@ int main(int argc, char *argv[]) {
         print_inst(p_vm, inst);
         printf("Instruction Binary: ");
         print_bits(4, &inst);
-        register_dump(p_vm, inst);
         execute_inst(p_vm, inst);
+        register_dump(p_vm, inst);
         printf("\n-------------------------------------\n");
     }
 
