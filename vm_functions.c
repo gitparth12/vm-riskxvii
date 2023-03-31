@@ -234,9 +234,9 @@ void lw(blob* p_vm, uint32_t instruction) {
     if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
-        int32_t second = p_vm->data_mem[++memory_addr] << 8; // Read second 8 bits
-        int32_t third = p_vm->data_mem[++memory_addr] << 16;
-        int32_t fourth = p_vm->data_mem[++memory_addr] << 24;
+        int32_t second = (p_vm->data_mem[++memory_addr] & 0xff) << 8; // Read second 8 bits
+        int32_t third = (p_vm->data_mem[++memory_addr] & 0xff) << 16;
+        int32_t fourth = (p_vm->data_mem[++memory_addr] & 0xff) << 24;
         if (rd != 0)
             p_vm->registers[rd] = (first | second | third | fourth); // Store in R[rd]
     }
