@@ -570,14 +570,14 @@ void bgeu(blob* p_vm, uint32_t instruction) {
 
 void jal(blob* p_vm, uint32_t instruction) {
     uint32_t rd = get_number(instruction, 7, 5);
-    int32_t imm = get_number(instruction, 21, 10);
+    int32_t imm = get_number(instruction, 21, 10) << 1;
     imm = (imm | (get_number(instruction, 20, 1) << 11));
     imm = (imm | (get_number(instruction, 12, 8) << 12));
     imm = (imm | (get_number(instruction, 31, 1) << 31));
     // print_inst(4, &imm);
     if (rd != 0)
         p_vm->registers[rd] = p_vm->PC + 4;
-    p_vm->PC += (imm << 1);
+    p_vm->PC += imm;
     // printf("jal: rd: %d, imm: %d, PC: %d\n", p_vm->registers[rd], imm, p_vm->PC);
 }
 
