@@ -35,8 +35,14 @@ int main(int argc, char *argv[]) {
     // }
 
     for (int i = 0; i < 256; i++) {
-        print_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
-        execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
+        uint32_t inst = p_vm->inst_mem[p_vm->PC / 4];
+        print_inst(p_vm, inst);
+        printf("Instruction Binary: ");
+        print_bits(4, &inst);
+        register_dump(p_vm, inst);
+        execute_inst(p_vm, inst);
+        register_dump(p_vm, inst);
+        printf("\n-------------------------------------\n");
     }
 
     // while (1) {
