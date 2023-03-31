@@ -23,16 +23,19 @@ int main(int argc, char *argv[]) {
     fread(p_vm->inst_mem, sizeof(uint32_t), INST_MEM_SIZE, pbinary);
     fread(p_vm->data_mem, sizeof(uint8_t), DATA_MEM_SIZE, pbinary);
     
-    while (1) {
-        //execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
-        print_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
-        // register_dump(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
-        // printf("PC: %d\n", p_vm->PC);
-        // printf("\n");
-        if (p_vm->PC > 1024) {
-            printf("PC got too big, exiting.\n");
-            exit(1);
-        }
+    // while (1) {
+    //     execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
+    //     // register_dump(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
+    //     // printf("PC: %d\n", p_vm->PC);
+    //     // printf("\n");
+    //     if (p_vm->PC > 1024) {
+    //         printf("PC got too big, exiting.\n");
+    //         exit(1);
+    //     }
+    // }
+
+    for (int i = 0; i < 256; i++) {
+        print_inst(p_vm, p_vm->inst_mem[i]);
     }
 
     // while (1) {
