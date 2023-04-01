@@ -15,7 +15,8 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
             }
             else {
                 printf("Instruction Not Implemented: 0x%x\n", instruction);
-                p_vm->PC += 4;
+                register_dump(p_vm, instruction);
+                exit(1);
             }
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b101)) { // 5
@@ -28,7 +29,8 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
             }
             else {
                 printf("Instruction Not Implemented: 0x%x\n", instruction);
-                p_vm->PC += 4;
+                register_dump(p_vm, instruction);
+                exit(1);
             }
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b100)) { // 4
@@ -51,7 +53,8 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
-            p_vm->PC += 4;
+            register_dump(p_vm, instruction);
+            exit(1);
         }
     }
     // TYPE I -> Multiple opcodes
@@ -71,7 +74,8 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
-            p_vm->PC += 4;
+            register_dump(p_vm, instruction);
+            exit(1);
         }
     }
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0000011)) { // 3
@@ -93,7 +97,8 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
-            p_vm->PC += 4;
+            register_dump(p_vm, instruction);
+            exit(1);
         }
     }
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b1100111)) { // 103
@@ -121,7 +126,8 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
-            p_vm->PC += 4;
+            register_dump(p_vm, instruction);
+            exit(1);
         }
     }
     // TYPE SB -> Same opcode
@@ -147,12 +153,14 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
-            p_vm->PC += 4;
+            register_dump(p_vm, instruction);
+            exit(1);
         }
     }
     else {
         printf("Instruction Not Implemented: 0x%x\n", instruction);
-        p_vm->PC += 4;
+        register_dump(p_vm, instruction);
+        exit(1);
     }
 }
 
