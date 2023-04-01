@@ -290,34 +290,30 @@ void lbu(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    printf("lbu: %x\n", p_vm->inst_mem[memory_addr]);
-    if (memory_addr >= 0 && memory_addr <= 0x3ff) {
-        if (rd != 0)
-            p_vm->registers[rd] = (uint8_t) (p_vm->inst_mem[memory_addr] & 0xff);
-    }
-    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
-        memory_addr -= 0x400;
-        if (rd != 0)
-            p_vm->registers[rd] = (uint8_t) p_vm->data_mem[memory_addr]; // Store unsigned value in R[rd]
-    }
-    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+    // if (memory_addr >= 0 && memory_addr <= 0x3ff) {
+    //     if (rd != 0)
+    //         p_vm->registers[rd] = (uint8_t) (p_vm->inst_mem[memory_addr] & 0xff);
+    // }
+    // if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+    //     memory_addr -= 0x400;
+    //     if (rd != 0)
+    //         p_vm->registers[rd] = (uint8_t) p_vm->data_mem[memory_addr]; // Store unsigned value in R[rd]
+    // }
+    // else 
+    if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
         // Assign value to heap memory (to be implemented)
     }
-    switch (memory_addr) {
-        case 0x812:
-            // fread(&p_vm->registers[rd], sizeof(char), 1, stdin);
-            if (rd != 0)
-                scanf("%lc", &p_vm->registers[rd]);
-            break;
-        case 0x816:
-            // int32_t input;
-            // fread(&input, sizeof(int32_t), 1, stdin);
-            // if (rd != 0)
-            //     p_vm->registers[rd] = input;
-            if (rd != 0)
-                scanf("%u", &p_vm->registers[rd]);
-            break;
+    else if (memory_addr == 0x812) {
+        if (rd != 0)
+            scanf("%lc", &p_vm->registers[rd]);
+    }
+    else if (memory_addr == 0x816) {
+        if (rd != 0)
+            scanf("%u", &p_vm->registers[rd]);
+    }
+    else {
+        p_vm->registers[rd] = (uint8_t) p_vm->data_mem[memory_addr - DATA_MEM_SIZE];
     }
     p_vm->PC += 4;
 }
