@@ -333,6 +333,14 @@ void sb(blob* p_vm, uint32_t instruction) {
             printf("CPU Halt Requested\n");
             exit(0);
             break;
+        case 0x820:
+            printf("%x", p_vm->PC);
+            break;
+        case 0x824:
+            register_dump(p_vm, instruction);
+            break;
+        case 0x828:
+            printf("%x", p_vm->data_mem[(uint32_t) p_vm->registers[rs2]]);
     }
     p_vm->PC += 4;
     // printf("sb: rs1: %d, rs2: %d, imm: %d, memory_addr: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm, memory_addr);
