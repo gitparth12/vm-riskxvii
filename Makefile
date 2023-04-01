@@ -16,8 +16,11 @@ $(TARGET):$(OBJ)
 
 .SUFFIXES: .c .o
 
+# .c.o:
+# 	 $(CC) $(CFLAGS) $(ASAN_FLAGS) $<
+
 .c.o:
-	 $(CC) $(CFLAGS) $(ASAN_FLAGS) $<
+	 $(CC) $(CFLAGS) $<
 
 run:
 	./$(TARGET)
