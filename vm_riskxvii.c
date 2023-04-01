@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     // Reading binary file into both arrays in our struct
     fread(p_vm->inst_mem, sizeof(uint32_t), INST_MEM_SIZE, pbinary);
-    fread(p_vm->data_mem, sizeof(uint8_t), DATA_MEM_SIZE, pbinary);
+    fread(p_vm->data_mem, 4, INST_MEM_SIZE, pbinary);
     
     while (1) {
         execute_inst(p_vm, p_vm->inst_mem[p_vm->PC / 4]);

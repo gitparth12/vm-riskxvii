@@ -10,7 +10,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
             if (compare_bits(instruction, FUNC7_START, 7, 0b0)) {
                 add(p_vm, instruction);
             }
-            else {
+            else if (compare_bits(instruction, FUNC7_START, 7, 0b0100000)) {
                 sub(p_vm, instruction);
             }
         }
@@ -19,8 +19,11 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
             if (compare_bits(instruction, FUNC7_START, 7, 0b0)) {
                 srl(p_vm, instruction);
             }
-            else {
+            else if (compare_bits(instruction, FUNC7_START, 7, 0b0100000)){
                 sra(p_vm, instruction);
+            }
+            else {
+                printf("Instruction Not Implemented: 0x%x\n", instruction);
             }
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b100)) { // 4
@@ -41,6 +44,9 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else if (compare_bits(instruction, FUNC3_START, 3, 0b011)) { // 3
             sltu(p_vm, instruction);
         }
+        else {
+            printf("Instruction Not Implemented: 0x%x\n", instruction);
+        }
     }
     // TYPE I -> Multiple opcodes
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0010011)) { // 19
@@ -56,6 +62,9 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b111)) { // 7
             andi(p_vm, instruction);
+        }
+        else {
+            printf("Instruction Not Implemented: 0x%x\n", instruction);
         }
     }
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b0000011)) { // 3
@@ -74,6 +83,9 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         }
         else if (compare_bits(instruction, FUNC3_START, 3, 0b101)) { // 5
             lhu(p_vm, instruction);
+        }
+        else {
+            printf("Instruction Not Implemented: 0x%x\n", instruction);
         }
     }
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b1100111)) { // 103
@@ -99,6 +111,9 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else if (compare_bits(instruction, FUNC3_START, 3, 0b010)) { // 2
             sw(p_vm, instruction);
         }
+        else {
+            printf("Instruction Not Implemented: 0x%x\n", instruction);
+        }
     }
     // TYPE SB -> Same opcode
     else if (compare_bits(instruction, 0, OPCODE_LENGTH, 0b1100011)) { // 99
@@ -121,6 +136,12 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else if (compare_bits(instruction, FUNC3_START, 3, 0b111)) { // 7
             bgeu(p_vm, instruction);
         }
+        else {
+            printf("Instruction Not Implemented: 0x%x\n", instruction);
+        }
+    }
+    else {
+        printf("Instruction Not Implemented: 0x%x\n", instruction);
     }
 }
 
