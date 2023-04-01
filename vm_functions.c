@@ -157,7 +157,7 @@ void lb(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    printf("lb: %x\n", memory_addr);
+    // printf("lb: %x\n", memory_addr);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
@@ -186,7 +186,8 @@ void lh(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    printf("lh: %x\n", memory_addr);
+    // printf("lh: %x\n", memory_addr);
+
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
         // Assign value to heap memory (to be implemented)
@@ -215,7 +216,7 @@ void lw(blob* p_vm, uint32_t instruction) {
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
     int32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("lw: %x\n", memory_addr);
+    // printf("lw: %x\n", memory_addr);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
@@ -308,7 +309,7 @@ void sb(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sb addr: %x\n", memory_addr);
+    // printf("sb addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
@@ -346,7 +347,7 @@ void sh(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sh addr: %x\n", memory_addr);
+    // printf("sh addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
@@ -383,7 +384,7 @@ void sw(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sw addr: %x\n", memory_addr);
+    // printf("sw addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
