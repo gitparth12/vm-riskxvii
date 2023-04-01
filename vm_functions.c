@@ -311,10 +311,7 @@ void sb(blob* p_vm, uint32_t instruction) {
 
     // printf("sb addr: %x\n", memory_addr);
 
-    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
-        call_illegal_op(p_vm, instruction);
-    }
-    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 1);
     }
@@ -350,10 +347,7 @@ void sh(blob* p_vm, uint32_t instruction) {
 
     // printf("sh addr: %x\n", memory_addr);
 
-    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
-        call_illegal_op(p_vm, instruction);
-    }
-    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 2);
     }
@@ -388,10 +382,7 @@ void sw(blob* p_vm, uint32_t instruction) {
 
     // printf("sw addr: %x\n", memory_addr);
 
-    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
-        call_illegal_op(p_vm, instruction);
-    }
-    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 4);
     }
