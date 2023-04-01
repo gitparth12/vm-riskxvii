@@ -480,7 +480,7 @@ void beq(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     // printf("beq: ");
    // print_bits(4, &imm);
-    // printf("rs1: %d, rs2: %d, imm: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm);
+    printf("rs1: %d, rs2: %d, imm: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm);
     if (p_vm->registers[rs1] == p_vm->registers[rs2])
         p_vm->PC += imm;
     else
