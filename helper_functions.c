@@ -205,9 +205,9 @@ void call_illegal_op(blob* p_vm, uint32_t instruction) {
 }
 
 void register_dump(blob* p_vm, uint32_t instruction) {
-    printf("PC = %08x;\n", p_vm->PC);
+    printf("PC = 0x%08x;\n", p_vm->PC);
     for (size_t i = 0; i < 32; i++) {
-        printf("R[%lu] = %08x;\n", i, p_vm->registers[i]);
+        printf("R[%lu] = 0x%08x;\n", i, p_vm->registers[i]);
     }
 }
 
