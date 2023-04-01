@@ -157,7 +157,9 @@ void lb(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
+    printf("lb: %d\n", p_vm->data_mem[memory_addr]);
     if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
+        memory_addr /= 4;
         if (rd != 0)
             p_vm->registers[rd] = (p_vm->inst_mem[memory_addr] & 0xff);
     }
@@ -196,7 +198,9 @@ void lh(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
+    printf("lh: %d\n", p_vm->data_mem[memory_addr]);
     if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
+        memory_addr /= 4;
         if (rd != 0)
             p_vm->registers[rd] = (p_vm->inst_mem[memory_addr] & 0xff) | ((p_vm->inst_mem[memory_addr+1] << 8) & 0xffff);
     }
@@ -239,8 +243,9 @@ void lw(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-
+    printf("lw: %d\n", p_vm->data_mem[memory_addr]);
     if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
+        memory_addr /= 4;
         if (rd != 0) {
             p_vm->registers[rd] = (p_vm->inst_mem[memory_addr] & 0xff) | ((p_vm->inst_mem[memory_addr+1] << 8) & 0xffff) | ((p_vm->inst_mem[memory_addr+2] << 16) & 0xffffff) | ((p_vm->inst_mem[memory_addr+3] << 24) & 0xffffffff);
         }
