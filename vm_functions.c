@@ -309,7 +309,7 @@ void sb(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sb addr: %x\n", memory_addr);
+    // printf("sb addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
@@ -348,7 +348,7 @@ void sh(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sh addr: %x\n", memory_addr);
+    // printf("sh addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
@@ -386,7 +386,7 @@ void sw(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sw addr: %x\n", memory_addr);
+    // printf("sw addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
