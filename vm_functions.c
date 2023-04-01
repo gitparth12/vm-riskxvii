@@ -247,7 +247,7 @@ void lbu(blob* p_vm, uint32_t instruction) {
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
     int32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("lbu: m[%d]: %d, rs1: %d, rs1_val: %d, rd: %d, rd_val: %d, imm: %d\n", memory_addr - DATA_MEM_SIZE,p_vm->data_mem[memory_addr - DATA_MEM_SIZE], rs1, p_vm->registers[rs1], rd, p_vm->registers[rd], imm);
+    // printf("lbu: m[%d]: %d, rs1: %d, rs1_val: %d, rd: %d, rd_val: %d, imm: %d\n", memory_addr - DATA_MEM_SIZE,p_vm->data_mem[memory_addr - DATA_MEM_SIZE], rs1, p_vm->registers[rs1], rd, p_vm->registers[rd], imm);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
@@ -398,7 +398,7 @@ void sw(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sw addr: %d, rs1: %d, rs1_val: %d, rs2: %d, rs2_val: %d, imm: %d\n", memory_addr, rs1, p_vm->registers[rs1], rs2, p_vm->registers[rs2], imm);
+    // printf("sw addr: %d, rs1: %d, rs1_val: %d, rs2: %d, rs2_val: %d, imm: %d\n", memory_addr, rs1, p_vm->registers[rs1], rs2, p_vm->registers[rs2], imm);
 
     if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
@@ -480,7 +480,7 @@ void beq(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     // printf("beq: ");
    // print_bits(4, &imm);
-    printf("rs1: %d, rs1_val: %d, rs2: %d, rs2_val: %d, imm: %d\n", rs1, p_vm->registers[rs1], rs2, p_vm->registers[rs2], imm);
+    // printf("rs1: %d, rs1_val: %d, rs2: %d, rs2_val: %d, imm: %d\n", rs1, p_vm->registers[rs1], rs2, p_vm->registers[rs2], imm);
     if (p_vm->registers[rs1] == p_vm->registers[rs2])
         p_vm->PC += imm;
     else
