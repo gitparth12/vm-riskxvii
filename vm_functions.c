@@ -309,10 +309,18 @@ void sb(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    // printf("sb addr: %x\n", memory_addr);
+    printf("sb addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 1);
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
     }
     switch (memory_addr) {
         case 0x800:
@@ -328,13 +336,6 @@ void sb(blob* p_vm, uint32_t instruction) {
             printf("CPU Halt Requested\n");
             exit(0);
             break;
-    }
-    if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
-    }
-    else {
-        memcpy(&p_vm->data_mem[memory_addr - DATA_MEM_SIZE], &p_vm->registers[rs2], 1);
     }
     p_vm->PC += 4;
     // printf("sb: rs1: %d, rs2: %d, imm: %d, memory_addr: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm, memory_addr);
@@ -347,10 +348,18 @@ void sh(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    // printf("sh addr: %x\n", memory_addr);
+    printf("sh addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 2);
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
     }
     switch (memory_addr) {
         case 0x800:
@@ -366,13 +375,6 @@ void sh(blob* p_vm, uint32_t instruction) {
             printf("CPU Halt Requested\n");
             exit(0);
             break;
-    }
-    if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
-    }
-    else {
-        memcpy(&p_vm->data_mem[memory_addr - DATA_MEM_SIZE], &p_vm->registers[rs2], 2);
     }
     p_vm->PC += 4;
 }
@@ -384,10 +386,18 @@ void sw(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    // printf("sw addr: %x\n", memory_addr);
+    printf("sw addr: %x\n", memory_addr);
 
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
+    }
+    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+        memory_addr -= 0x400;
+        memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 4);
+    }
+    else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
+        memory_addr -= 0xb700;
+        // Assign value to heap memory (to be implemented)
     }
     switch (memory_addr) {
         case 0x800:
@@ -403,13 +413,6 @@ void sw(blob* p_vm, uint32_t instruction) {
             printf("CPU Halt Requested\n");
             exit(0);
             break;
-    }
-    if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
-    }
-    else {
-        memcpy(&p_vm->data_mem[memory_addr - DATA_MEM_SIZE], &p_vm->registers[rs2], 4);
     }
     p_vm->PC += 4;
 }
