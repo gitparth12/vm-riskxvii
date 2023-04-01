@@ -157,7 +157,7 @@ void lb(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    printf("lb: %d\n", p_vm->data_mem[memory_addr]);
+    
     if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
         memory_addr /= 4;
         if (rd != 0)
@@ -165,6 +165,7 @@ void lb(blob* p_vm, uint32_t instruction) {
     }
     else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
+        printf("lb: %d\n", p_vm->data_mem[memory_addr]);
         if (rd != 0)
             p_vm->registers[rd] = (p_vm->data_mem[memory_addr] << 24) >> 24;
     }
@@ -198,7 +199,7 @@ void lh(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    printf("lh: %d\n", p_vm->data_mem[memory_addr]);
+    
     if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
         memory_addr /= 4;
         if (rd != 0)
@@ -208,6 +209,7 @@ void lh(blob* p_vm, uint32_t instruction) {
         memory_addr -= 0x400;
         int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
         int32_t second = p_vm->data_mem[memory_addr+1] << 8; // Read second 8 bits
+        printf("lh: %d\n", first | second);
         int32_t combined = ((first | second) << 16) >> 16;
         if (rd != 0)
             p_vm->registers[rd] = combined; // Sign extend and store
@@ -243,7 +245,6 @@ void lw(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    printf("lw: %d\n", p_vm->data_mem[memory_addr]);
     if (memory_addr >= 0x0 && memory_addr <= 0x3ff) {
         memory_addr /= 4;
         if (rd != 0) {
@@ -256,6 +257,7 @@ void lw(blob* p_vm, uint32_t instruction) {
         int32_t second = (p_vm->data_mem[++memory_addr] & 0xff) << 8; // Read second 8 bits
         int32_t third = (p_vm->data_mem[++memory_addr] & 0xff) << 16;
         int32_t fourth = (p_vm->data_mem[++memory_addr] & 0xff) << 24;
+        printf("lw: %d\n", first | second | third | fourth);
         if (rd != 0)
             p_vm->registers[rd] = (first | second | third | fourth); // Store in R[rd]
     }
@@ -290,8 +292,10 @@ void lbu(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
+    
     if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
+        printf("lbu: %d\n", p_vm->data_mem[memory_addr]);
         if (rd != 0)
             p_vm->registers[rd] = (uint8_t) p_vm->data_mem[memory_addr]; // Store unsigned value in R[rd]
     }
@@ -361,6 +365,8 @@ void sb(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
+    printf("sb addr: %x\n", memory_addr);
+
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
     }
@@ -397,6 +403,9 @@ void sh(blob* p_vm, uint32_t instruction) {
     int32_t imm = ((get_number(instruction, 7, 5) | (get_number(instruction, 25, 7) << 5)));
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
+
+    printf("sh addr: %x\n", memory_addr);
+
     if (memory_addr <= 0x3ff) { // Instruction memory or negative address
         call_illegal_op(p_vm, instruction);
     }
