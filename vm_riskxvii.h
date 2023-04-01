@@ -15,7 +15,7 @@
 
 typedef struct blob {
     // Instruction Memory
-    uint8_t inst_mem[DATA_MEM_SIZE];
+    uint32_t inst_mem[INST_MEM_SIZE];
     // Data memory
     uint8_t data_mem[DATA_MEM_SIZE];
     // Registers for the vm
