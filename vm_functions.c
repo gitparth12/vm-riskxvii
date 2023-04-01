@@ -489,7 +489,7 @@ void blt(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 31, 1) << 12));
     imm = (imm << 20) >> 20; // Sign extend
     if (p_vm->registers[rs1] < p_vm->registers[rs2])
-        p_vm->PC += (imm << 1);
+        p_vm->PC += imm;
     else
         p_vm->PC += 4;
 }
@@ -503,7 +503,7 @@ void bltu(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 31, 1) << 12));
     imm = imm; // Sign extend
     if ((uint32_t) p_vm->registers[rs1] < (uint32_t) p_vm->registers[rs2])
-        p_vm->PC += (imm << 1);
+        p_vm->PC += imm;
     else
         p_vm->PC += 4;
 }
@@ -517,7 +517,7 @@ void bge(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 31, 1) << 12));
     imm = (imm << 20) >> 20; // Sign extend
     if (p_vm->registers[rs1] >= p_vm->registers[rs2])
-        p_vm->PC += (imm << 1);
+        p_vm->PC += imm;
     else
         p_vm->PC += 4;
 }
@@ -531,7 +531,7 @@ void bgeu(blob* p_vm, uint32_t instruction) {
     imm = (imm | (get_number(instruction, 31, 1) << 12));
     imm = (imm << 20) >> 20; // Sign extend
     if ((uint32_t) p_vm->registers[rs1] < p_vm->registers[rs2])
-        p_vm->PC += (imm << 1);
+        p_vm->PC += imm;
     else
         p_vm->PC += 4;
 }
