@@ -9,8 +9,10 @@ OBJ        = $(SRC:.c=.o)
 
 all:$(TARGET)
 
+# $(TARGET):$(OBJ)
+# 	$(CC) $(ASAN_FLAGS) -o $@ $(OBJ)
 $(TARGET):$(OBJ)
-	$(CC) $(ASAN_FLAGS) -o $@ $(OBJ)
+	$(CC) -o $@ $(OBJ)
 
 .SUFFIXES: .c .o
 
