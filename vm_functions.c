@@ -290,7 +290,7 @@ void lbu(blob* p_vm, uint32_t instruction) {
     // if (memory_addr <= 0x3ff) { // Instruction memory or negative address
     //     call_illegal_op(p_vm, instruction);
     // }
-    
+    printf("lbu: %x\n", memory_addr);
     if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         if (rd != 0)
