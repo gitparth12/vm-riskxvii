@@ -247,7 +247,7 @@ void lbu(blob* p_vm, uint32_t instruction) {
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
     int32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("lbu: memory_addr: %d\n", memory_addr);
+    printf("lbu: memory_addr: %d, rs1: %d, rs1_val: %d, rd: %d, rd_val: %d, imm: %d\n", memory_addr, rs1, p_vm->registers[rs1], rd, p_vm->registers[rd], imm);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
@@ -398,7 +398,7 @@ void sw(blob* p_vm, uint32_t instruction) {
     imm = (imm << 20) >> 20; // Sign extend
     uint32_t memory_addr = p_vm->registers[rs1] + imm;
 
-    printf("sw addr: %x\n", memory_addr);
+    printf("sw addr: %d, rs1: %d, rs1_val: %d, rs2: %d, rs2_val: %d, imm: %d\n", memory_addr, rs1, p_vm->registers[rs1], rs2, p_vm->registers[rs2], imm);
 
     if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
