@@ -140,9 +140,9 @@ void sra(blob* p_vm, uint32_t instruction) {
     uint32_t rd = get_number(instruction, 7, 5);
     uint32_t rs1 = get_number(instruction, 15, 5);
     uint32_t rs2 = get_number(instruction, 20, 5);
-    int32_t shifted = (uint32_t) (p_vm->registers[rs1]) >> p_vm->registers[rs2];
-    int32_t rot_bits = p_vm->registers[rs1] << (32 - p_vm->registers[rs2]);
-    int32_t combined = shifted | rot_bits;
+    uint32_t shifted = (uint32_t) (p_vm->registers[rs1]) >> p_vm->registers[rs2];
+    uint32_t rot_bits = p_vm->registers[rs1] << (32 - p_vm->registers[rs2]);
+    uint32_t combined = shifted | rot_bits;
     if (rd != 0)
         p_vm->registers[rd] = combined;
     p_vm->PC += 4;
