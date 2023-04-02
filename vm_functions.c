@@ -205,8 +205,12 @@ void lh(blob* p_vm, uint32_t instruction) {
             scanf("%lc", &p_vm->registers[rd]);
     }
     else if (memory_addr == 0x816) {
-        if (rd != 0)
-            scanf("%d", &p_vm->registers[rd]);
+        if (rd != 0) {
+            uint16_t temp;
+            scanf("%d", &temp);
+            p_vm->registers[rd] = temp;
+            // scanf("%d", &p_vm->registers[rd]);
+        }
     }
     else if (memory_addr >= 0x850) {
         call_illegal_op(p_vm, instruction);
@@ -238,8 +242,12 @@ void lw(blob* p_vm, uint32_t instruction) {
             scanf("%lc", &p_vm->registers[rd]);
     }
     else if (memory_addr == 0x816) {
-        if (rd != 0)
-            scanf("%d", &p_vm->registers[rd]);
+        if (rd != 0) {
+            uint32_t temp;
+            scanf("%d", &temp);
+            p_vm->registers[rd] = temp;
+            // scanf("%d", &p_vm->registers[rd]);
+        }
     }
     else if (memory_addr >= 0x850) {
         call_illegal_op(p_vm, instruction);
