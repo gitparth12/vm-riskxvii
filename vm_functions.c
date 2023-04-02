@@ -309,7 +309,7 @@ void sb(blob* p_vm, uint32_t instruction) {
             break;
         case 0x808:
             uint32_t temp = 0 | p_vm->registers[rs2];
-            printf("%x", temp);
+            printf("%x 1", temp);
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
@@ -365,7 +365,7 @@ void sh(blob* p_vm, uint32_t instruction) {
             break;
         case 0x808:
             uint32_t temp = 0 | p_vm->registers[rs2];
-            printf("%x", temp);
+            printf("%x 2", temp);
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
@@ -420,7 +420,7 @@ void sw(blob* p_vm, uint32_t instruction) {
             break;
         case 0x808:
             uint32_t temp = 0 | p_vm->registers[rs2];
-            printf("%x", temp);
+            printf("%x 3", temp);
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
