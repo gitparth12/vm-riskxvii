@@ -10,8 +10,8 @@ uint8_t get_num_banks(uint32_t malloc_size) {
 }
 
 uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
-    
-    if (malloc_size > 0xd700)
+
+    if (malloc_size > 0x2000)
         return 0;
 
     if (p_vm->heap_memory.head == NULL) {
