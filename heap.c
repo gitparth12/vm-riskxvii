@@ -26,7 +26,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
         // loop through linked list and find empty space
         Node* current = p_vm->heap_memory.head;
         while (1) {
-            if (current->next == NULL && (current->start_address + current->size + malloc_size) <= 0xd700) {
+            if (current->next == NULL && (current->start_address + (current->num_banks * 64) + (get_num_banks(malloc_size) * 64)) <= 0xd700) {
                 current->next = (Node*) malloc(1 * sizeof(Node));
                 Node* new = current->next;
                 new->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
