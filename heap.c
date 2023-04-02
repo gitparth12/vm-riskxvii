@@ -95,7 +95,7 @@ void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
@@ -108,7 +108,7 @@ void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
@@ -121,7 +121,7 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
@@ -134,7 +134,7 @@ void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void lh_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
@@ -150,7 +150,7 @@ void lh_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void lw_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
@@ -168,7 +168,7 @@ void lw_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
@@ -181,7 +181,7 @@ void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
@@ -197,7 +197,7 @@ void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 
