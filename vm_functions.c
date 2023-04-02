@@ -171,6 +171,9 @@ void lb(blob* p_vm, uint32_t instruction) {
         if (rd != 0)
             scanf("%d", &p_vm->registers[rd]);
     }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
+    }
     else { // Data Memory
         if (rd != 0)
             p_vm->registers[rd] = (p_vm->data_mem[memory_addr - DATA_MEM_SIZE] << 24) >> 24;
@@ -199,6 +202,9 @@ void lh(blob* p_vm, uint32_t instruction) {
     else if (memory_addr == 0x816) {
         if (rd != 0)
             scanf("%d", &p_vm->registers[rd]);
+    }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
     }
     else { // Data Memory
         int32_t first = p_vm->data_mem[memory_addr - DATA_MEM_SIZE]; // Read first 8 bits
@@ -229,6 +235,9 @@ void lw(blob* p_vm, uint32_t instruction) {
     else if (memory_addr == 0x816) {
         if (rd != 0)
             scanf("%d", &p_vm->registers[rd]);
+    }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
     }
     else { // Data Memory
         int32_t first = p_vm->data_mem[memory_addr - DATA_MEM_SIZE]; // Read first 8 bits
@@ -261,6 +270,9 @@ void lbu(blob* p_vm, uint32_t instruction) {
         if (rd != 0)
             scanf("%u", &p_vm->registers[rd]);
     }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
+    }
     else {
         p_vm->registers[rd] = (uint8_t) p_vm->data_mem[memory_addr - DATA_MEM_SIZE];
     }
@@ -286,6 +298,9 @@ void lhu(blob* p_vm, uint32_t instruction) {
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
         // Assign value to heap memory (to be implemented)
+    }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
     }
     switch (memory_addr) {
         case 0x812:
@@ -320,6 +335,9 @@ void sb(blob* p_vm, uint32_t instruction) {
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
         // Assign value to heap memory (to be implemented)
+    }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
     }
     switch (memory_addr) {
         case 0x800:
@@ -371,6 +389,9 @@ void sh(blob* p_vm, uint32_t instruction) {
         memory_addr -= 0xb700;
         // Assign value to heap memory (to be implemented)
     }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
+    }
     switch (memory_addr) {
         case 0x800:
             printf("%lc", p_vm->registers[rs2]);
@@ -419,6 +440,9 @@ void sw(blob* p_vm, uint32_t instruction) {
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
         memory_addr -= 0xb700;
         // Assign value to heap memory (to be implemented)
+    }
+    else if (memory_addr >= 0x850) {
+        call_illegal_op(p_vm, instruction);
     }
     switch (memory_addr) {
         case 0x800:
