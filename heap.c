@@ -199,7 +199,7 @@ void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
             address -= current->start_address;
             int32_t first = current->p_data[address];
             int32_t second = current->p_data[address+1] << 8;
-            int32_t combined = ((first | second) << 16) >> 16;
+            int32_t combined = (first | second);
             p_vm->registers[reg_index] = (uint32_t) combined;
             return;
         }
