@@ -183,7 +183,7 @@ void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
     while (current != NULL) {
         if (address >= current->start_address && (address+3) <= (current->start_address + current->size)) {
             address -= current->start_address;
-            p_vm->registers[reg_index] = (uint32_t) current->p_data[address];
+            p_vm->registers[reg_index] = (uint8_t) current->p_data[address];
             return;
         }
         current = current->next;
