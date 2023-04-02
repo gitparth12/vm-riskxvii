@@ -116,6 +116,7 @@ void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
 void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
+        printf("sw Address: %x, current_addr: %x, current_size: %d\n", address, current->start_address, current->size);
         if ((address >= current->start_address) && ((address+3) < (current->start_address + current->size))) {
             address -= current->start_address;
             memcpy(&current->p_data[address], value, 4);
