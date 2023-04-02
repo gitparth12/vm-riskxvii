@@ -16,6 +16,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
             else {
                 printf("Instruction Not Implemented: 0x%x\n", instruction);
                 register_dump(p_vm, instruction);
+                list_free(&p_vm->heap_memory.head);
                 exit(1);
             }
         }
@@ -30,6 +31,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
             else {
                 printf("Instruction Not Implemented: 0x%x\n", instruction);
                 register_dump(p_vm, instruction);
+                list_free(&p_vm->heap_memory.head);
                 exit(1);
             }
         }
@@ -54,6 +56,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
             register_dump(p_vm, instruction);
+            list_free(&p_vm->heap_memory.head);
             exit(1);
         }
     }
@@ -75,6 +78,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
             register_dump(p_vm, instruction);
+            list_free(&p_vm->heap_memory.head);
             exit(1);
         }
     }
@@ -98,6 +102,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
             register_dump(p_vm, instruction);
+            list_free(&p_vm->heap_memory.head);
             exit(1);
         }
     }
@@ -127,6 +132,7 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
             register_dump(p_vm, instruction);
+            list_free(&p_vm->heap_memory.head);
             exit(1);
         }
     }
@@ -154,12 +160,14 @@ void execute_inst(blob* p_vm, uint32_t instruction) {
         else {
             printf("Instruction Not Implemented: 0x%x\n", instruction);
             register_dump(p_vm, instruction);
+            list_free(&p_vm->heap_memory.head);
             exit(1);
         }
     }
     else {
         printf("Instruction Not Implemented: 0x%x\n", instruction);
         register_dump(p_vm, instruction);
+        list_free(&p_vm->heap_memory.head);
         exit(1);
     }
 }
@@ -201,6 +209,7 @@ void call_illegal_op(blob* p_vm, uint32_t instruction) {
     // Register Dump
     register_dump(p_vm, instruction);
     // Terminate
+    list_free(&p_vm->heap_memory.head);
     exit(1);
 }
 

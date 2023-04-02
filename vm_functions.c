@@ -333,6 +333,7 @@ void sb(blob* p_vm, uint32_t instruction) {
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
+            list_free(&p_vm->heap_memory.head);
             exit(0);
             break;
         case 0x820:
@@ -377,6 +378,7 @@ void sh(blob* p_vm, uint32_t instruction) {
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
+            list_free(&p_vm->heap_memory.head);
             exit(0);
             break;
         case 0x820:
@@ -420,6 +422,7 @@ void sw(blob* p_vm, uint32_t instruction) {
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
+            list_free(&p_vm->heap_memory.head);
             exit(0);
             break;
         case 0x820:

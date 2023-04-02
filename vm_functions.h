@@ -3,6 +3,9 @@
 
 #include "helper_functions.h"
 #include "vm_riskxvii.h"
+#include "vm_functions.h"
+#include "heap.h"
+#include "linked_list.h"
 
 extern void add(blob* p_vm, uint32_t instruction);
 extern void addi(blob* p_vm, uint32_t instruction);

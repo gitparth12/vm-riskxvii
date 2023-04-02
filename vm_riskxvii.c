@@ -1,13 +1,35 @@
 #include "helper_functions.h"
 #include "vm_functions.h"
+#include "heap.h"
+#include "linked_list.h"
 #include <string.h>
 
 int main(int argc, char *argv[]) {
+    // // Instruction Memory
+    // uint32_t inst_mem[INST_MEM_SIZE];
+    // // Data memory
+    // uint8_t data_mem[DATA_MEM_SIZE];
+    // // Registers for the vm
+    // int32_t registers[REGISTER_COUNT];
+    // // Program counter
+    // uint32_t PC;
+    // // Linked list of malloc requests
+    // Heap heap_memory;
+
     // Initialising the struct
-    blob vm;
+    blob vm = {
+        .inst_mem = {0},
+        .data_mem = {0},
+        .registers = {0},
+        .PC = 0,
+        .heap_memory = {
+            .total_banks_taken = 0,
+            .head = NULL
+        }
+    };
     blob* p_vm = &vm;
-    memset(p_vm->registers, 0, sizeof(p_vm->registers));
-    p_vm->PC = 0;
+    // memset(p_vm->registers, 0, sizeof(p_vm->registers));
+    // p_vm->PC = 0;
 
     // Creating a file pointer for the binary input
     FILE* pbinary;
@@ -30,6 +52,7 @@ int main(int argc, char *argv[]) {
         // printf("\n");
         if (p_vm->PC > 1024) {
             printf("PC got too big, exiting.\n");
+            list_free(&p_vm->heap_memory.head);
             exit(1);
         }
     }

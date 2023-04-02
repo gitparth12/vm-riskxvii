@@ -1,13 +1,8 @@
 #ifndef HELPER_FUNCTIONS
 #define HELPER_FUNCTIONS
-#include "vm_riskxvii.h"
 
-typedef struct memory_bank {
-    char* data;
-    uint16_t start_adress;
-    bool allocated;
-    uint8_t n_bytes;
-} memory_bank;
+#include "vm_riskxvii.h"
+#include "heap.h"
 
 extern void print_bits(size_t const size, void* ptr);
 extern int32_t get_number(uint32_t instruction, int start_pos, int n_bits);
