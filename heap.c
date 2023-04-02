@@ -123,10 +123,9 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    printf("sw Address: %x, current_addr: %x, current_size: %d\n", address, current->start_address, current->size);
+    printf("sw Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
-
 
 void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
