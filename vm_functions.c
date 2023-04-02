@@ -241,9 +241,9 @@ void lw(blob* p_vm, uint32_t instruction) {
     }
     else { // Data Memory
         int32_t first = p_vm->data_mem[memory_addr - DATA_MEM_SIZE]; // Read first 8 bits
-        int32_t second = (p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 1] & 0xff) << 8; // Read second 8 bits
-        int32_t third = (p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 2] & 0xff) << 16;
-        int32_t fourth = (p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 3] & 0xff) << 24;
+        int32_t second = p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 1] << 8; // Read second 8 bits
+        int32_t third = p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 2] << 16;
+        int32_t fourth = p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 3] << 24;
         if (rd != 0)
             p_vm->registers[rd] = (first | second | third | fourth); // Store in R[rd]
     }
