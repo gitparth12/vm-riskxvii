@@ -88,7 +88,7 @@ void my_free(blob* p_vm, uint32_t address) {
 void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
-        if (address >= current->start_address && address < (current->start_address + current->size)) {
+        if (address >= current->start_address && address <= (current->start_address + current->size)) {
             address -= current->start_address;
             memcpy(&current->p_data[address], value, 1);
             return;
@@ -102,7 +102,7 @@ void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
 void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
-        if (address >= current->start_address && (address+1) < (current->start_address + current->size)) {
+        if (address >= current->start_address && (address+1) <= (current->start_address + current->size)) {
             address -= current->start_address;
             memcpy(&current->p_data[address], value, 2);
             return;
@@ -117,7 +117,7 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
         // printf("sw Address: %x, current_addr: %x, current_size: %d\n", address, current->start_address, current->size);
-        if ((address >= current->start_address) && ((address+3) < (current->start_address + current->size))) {
+        if ((address >= current->start_address) && ((address+3) <= (current->start_address + current->size))) {
             address -= current->start_address;
             memcpy(&current->p_data[address], value, 4);
             return;
