@@ -19,7 +19,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
         temp->next = NULL;
         temp->size = malloc_size;
         temp->start_address = 0xb700;
-        printf("start: %x, size: %d, num_banks: %d\n", temp->start_address, temp->size, temp->num_banks);
+        // printf("start: %x, size: %d, num_banks: %d\n", temp->start_address, temp->size, temp->num_banks);
         return temp->start_address;
     }
     else {
@@ -34,7 +34,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                 new->next = NULL;
                 new->size = malloc_size;
                 new->start_address = current->start_address + (current->num_banks * 64);
-                printf("IF CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
+                // printf("IF CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
                 return new->start_address;
             }
             else if (current->next == NULL && (current->start_address + current->size + malloc_size) > 0xd700) {
@@ -52,7 +52,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                     new->size = malloc_size;
                     new->start_address = current->start_address + (current->num_banks * 64);
                     current->next = new;
-                    printf("ELSE CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
+                    // printf("ELSE CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
                     return new->start_address;
                 }
             }
