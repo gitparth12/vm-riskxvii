@@ -179,7 +179,7 @@ void lh(blob* p_vm, uint32_t instruction) {
     else { // Data Memory
         int32_t first = p_vm->data_mem[memory_addr - DATA_MEM_SIZE]; // Read first 8 bits
         int32_t second = p_vm->data_mem[memory_addr - DATA_MEM_SIZE + 1] << 8; // Read second 8 bits
-        int32_t combined = ((first | second) << 16) >> 16;
+        int32_t combined = (first | second);
         if (rd != 0)
             p_vm->registers[rd] = combined; // Sign extend and store
     }
