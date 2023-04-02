@@ -127,6 +127,7 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
+
 void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
