@@ -16,7 +16,6 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
         temp->next = NULL;
         temp->size = malloc_size;
         temp->start_address = 0xb700;
-        // printf("start: %x, size: %d, num_banks: %d\n", temp->start_address, temp->size, temp->num_banks);
         return temp->start_address;
     }
     else {
@@ -31,7 +30,6 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                 new->next = NULL;
                 new->size = malloc_size;
                 new->start_address = current->start_address + (current->num_banks * 64);
-                // printf("IF CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
                 return new->start_address;
             }
             else if (current->next == NULL && (current->start_address + (current->num_banks * 64) + (get_num_banks(malloc_size) * 64)) > 0xd700) {
@@ -49,7 +47,6 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                     new->size = malloc_size;
                     new->start_address = current->start_address + (current->num_banks * 64);
                     current->next = new;
-                    // printf("ELSE CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
                     return new->start_address;
                 }
             }
@@ -83,8 +80,6 @@ void my_free(blob* p_vm, uint32_t address) {
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
-
-// Store and Load operations using heap
 void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
@@ -95,7 +90,6 @@ void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("sb Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -109,14 +103,12 @@ void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("sh Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
 void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
-        // printf("sw Address: %x, current_addr: %x, current_size: %d\n", address, current->start_address, current->size);
         if ((address >= current->start_address) && ((address+3) <= (current->start_address + current->size))) {
             address -= current->start_address;
             memcpy(&current->p_data[address], value, 4);
@@ -124,7 +116,6 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("sw Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -138,7 +129,6 @@ void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("lb Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -155,7 +145,6 @@ void lh_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("lh Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -174,7 +163,6 @@ void lw_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("lw Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -188,7 +176,6 @@ void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("lbu Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -205,7 +192,6 @@ void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    // printf("lhu Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
