@@ -3,13 +3,19 @@
 #include "linked_list.h"
 #include <math.h>
 
+uint8_t get_num_banks(uint32_t malloc_size) {
+    if (malloc_size % 64)
+        return (uint8_t) malloc_size / 64;
+    return (uint8_t) (malloc_size / 64) + 1;
+}
+
 uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
 
     if (p_vm->heap_memory.head == NULL) {
         p_vm->heap_memory.head = (Node*) malloc(1 * sizeof(Node));
         Node* temp = p_vm->heap_memory.head;
         temp->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
-        temp->num_banks = (malloc_size / 64) + 1;
+        temp->num_banks = get_num_banks(malloc_size);
         temp->next = NULL;
         temp->size = malloc_size;
         temp->start_address = 0xb700;
@@ -24,7 +30,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                 current->next = (Node*) malloc(1 * sizeof(Node));
                 Node* new = current->next;
                 new->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
-                new->num_banks = (malloc_size / 64) + 1;
+                new->num_banks = get_num_banks(malloc_size);
                 new->next = NULL;
                 new->size = malloc_size;
                 new->start_address = current->start_address + (current->num_banks * 64);
@@ -41,7 +47,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                     // Insert a node in the list here
                     Node* new = (Node*) malloc(1 * sizeof(Node));
                     new->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
-                    new->num_banks = (malloc_size / 64) + 1;
+                    new->num_banks = get_num_banks(malloc_size);
                     new->next = current->next;
                     new->size = malloc_size;
                     new->start_address = current->start_address + (current->num_banks * 64);
