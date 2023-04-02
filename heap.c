@@ -123,7 +123,7 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    printf("sw Address: %x\n", current->start_address);
+    printf("sw Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
