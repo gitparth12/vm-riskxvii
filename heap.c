@@ -55,7 +55,6 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
     }
 }
 
-
 void my_free(blob* p_vm, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     Node* previous = p_vm->heap_memory.head;
@@ -63,8 +62,8 @@ void my_free(blob* p_vm, uint32_t address) {
         if (current->start_address == address) {
             if (current == p_vm->heap_memory.head) {
                 p_vm->heap_memory.head = current->next;
-                free(p_vm->heap_memory.head->p_data);
-                free(p_vm->heap_memory.head);
+                free(current->p_data);
+                free(current);
                 return;
             }
             else {
