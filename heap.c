@@ -37,7 +37,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                 // printf("IF CONDITION: current_start: %x, start: %x, size: %d, num_banks: %d\n", current->start_address, new->start_address, new->size, new->num_banks);
                 return new->start_address;
             }
-            else if (current->next == NULL && (current->start_address + current->size + malloc_size) > 0xd700) {
+            else if (current->next == NULL && (current->start_address + (current->num_banks * 64) + (get_num_banks(malloc_size) * 64)) > 0xd700) {
                 return 0; // If there's no space to malloc at the end of the list
             }
             else {
