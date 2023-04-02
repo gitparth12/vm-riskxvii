@@ -5,7 +5,7 @@ CC = gcc
 # CFLAGS     = -c -Wall -Wvla -pie -Oz -Werror -O0 -std=c11
 CFLAGS 	   = -c -pie -Oz -Os -O0 -std=c11
 ASAN_FLAGS = -fsanitize=address
-SRC        = vm_riskxvii.c vm_functions.c helper_functions.c
+SRC        = vm_riskxvii.c vm_functions.c helper_functions.c linked_list.c heap.c
 OBJ        = $(SRC:.c=.o)
 
 all:$(TARGET)
