@@ -18,7 +18,7 @@
 typedef struct Node { // represents malloc requests
     int8_t* p_data;
     uint8_t size;
-    uint8_t num_banks;
+    uint32_t num_banks;
     uint32_t start_address;
     struct Node* next;
 } Node;
