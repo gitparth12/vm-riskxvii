@@ -9,7 +9,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
         p_vm->heap_memory.head = (Node*) malloc(1 * sizeof(Node));
         Node* temp = p_vm->heap_memory.head;
         temp->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
-        temp->num_banks = (uint8_t) ceil(malloc_size / 64);
+        temp->num_banks = (malloc_size / 64) + 1;
         temp->next = NULL;
         temp->size = malloc_size;
         temp->start_address = 0xb700;
@@ -24,7 +24,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                 current->next = (Node*) malloc(1 * sizeof(Node));
                 Node* new = current->next;
                 new->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
-                new->num_banks = (uint8_t) ceil(malloc_size / 64);
+                new->num_banks = (malloc_size / 64) + 1;
                 new->next = NULL;
                 new->size = malloc_size;
                 new->start_address = current->start_address + (current->num_banks * 64) + 1;
@@ -41,7 +41,7 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
                     // Insert a node in the list here
                     Node* new = (Node*) malloc(1 * sizeof(Node));
                     new->p_data = (int8_t*) calloc(malloc_size, sizeof(uint8_t));
-                    new->num_banks = (uint8_t) ceil(malloc_size / 64);
+                    new->num_banks = (malloc_size / 64) + 1;
                     new->next = current->next;
                     new->size = malloc_size;
                     new->start_address = current->start_address + (current->num_banks * 64) + 1;
