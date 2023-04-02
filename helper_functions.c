@@ -205,7 +205,7 @@ void print_bits(size_t const size, void* ptr) {
 }
 
 void call_illegal_op(blob* p_vm, uint32_t instruction) {
-    printf("Illegal Operation: 08x%x\n", instruction);
+    printf("Illegal Operation: 0x%08x\n", instruction);
     // Register Dump
     register_dump(p_vm, instruction);
     // Terminate
