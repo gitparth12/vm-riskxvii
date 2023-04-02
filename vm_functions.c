@@ -302,13 +302,14 @@ void sb(blob* p_vm, uint32_t instruction) {
     }
     switch (memory_addr) {
         case 0x800:
-            printf("%lc", p_vm->registers[rs2]);
+            printf("%c", p_vm->registers[rs2]);
             break;
         case 0x804:
-            printf("%d", p_vm->registers[rs2]);
+            printf("%d", (p_vm->registers[rs2]));
             break;
         case 0x808:
-            printf("%x", (uint32_t) p_vm->registers[rs2]);
+            uint32_t temp = 0 | p_vm->registers[rs2];
+            printf("%x", temp);
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
@@ -363,7 +364,8 @@ void sh(blob* p_vm, uint32_t instruction) {
             printf("%d", p_vm->registers[rs2]);
             break;
         case 0x808:
-            printf("%x", (uint32_t) p_vm->registers[rs2]);
+            uint32_t temp = 0 | p_vm->registers[rs2];
+            printf("%x", temp);
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
@@ -417,7 +419,8 @@ void sw(blob* p_vm, uint32_t instruction) {
             printf("%d", p_vm->registers[rs2]);
             break;
         case 0x808:
-            printf("%x", (uint32_t) p_vm->registers[rs2]);
+            uint32_t temp = 0 | p_vm->registers[rs2];
+            printf("%x", temp);
             break;
         case 0x80c:
             printf("CPU Halt Requested\n");
