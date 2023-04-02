@@ -244,6 +244,7 @@ void lbu(blob* p_vm, uint32_t instruction) {
         call_illegal_op(p_vm, instruction);
     }
     else {
+        printf("lbu value: %d\n", p_vm->data_mem[memory_addr - DATA_MEM_SIZE]);
         p_vm->registers[rd] = (uint8_t) (p_vm->data_mem[memory_addr - DATA_MEM_SIZE] & 0xff);
     }
     p_vm->PC += 4;
@@ -260,6 +261,7 @@ void lhu(blob* p_vm, uint32_t instruction) {
         int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
         int32_t second = p_vm->data_mem[memory_addr+1] << 8; // Read second 8 bits
         int32_t combined = (first | second);
+        printf("lhu value: %d\n", combined);
         if (rd != 0)
             p_vm->registers[rd] = (uint16_t) (combined & 0xffff); // Store value in R[rd]
     }
