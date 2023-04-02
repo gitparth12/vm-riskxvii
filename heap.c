@@ -85,12 +85,12 @@ void my_free(blob* p_vm, uint32_t address) {
 
 
 // Store and Load operations using heap
-void sb_h(blob* p_vm, uint8_t value, uint32_t address) {
+void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
         if (address >= current->start_address && address <= (current->start_address + current->size)) {
             address -= current->start_address;
-            memcpy(&current->p_data[address], &value, 1);
+            memcpy(&current->p_data[address], value, 1);
             return;
         }
         current = current->next;
@@ -98,12 +98,12 @@ void sb_h(blob* p_vm, uint8_t value, uint32_t address) {
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
 }
 
-void sh_h(blob* p_vm, uint16_t value, uint32_t address) {
+void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
         if (address >= current->start_address && (address+1) <= (current->start_address + current->size)) {
             address -= current->start_address;
-            memcpy(&current->p_data[address], &value, 2);
+            memcpy(&current->p_data[address], value, 2);
             return;
         }
         current = current->next;
@@ -111,12 +111,12 @@ void sh_h(blob* p_vm, uint16_t value, uint32_t address) {
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
 }
 
-void sw_h(blob* p_vm, uint32_t value, uint32_t address) {
+void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
     Node* current = p_vm->heap_memory.head;
     while (current != NULL) {
         if (address >= current->start_address && (address+3) <= (current->start_address + current->size)) {
             address -= current->start_address;
-            memcpy(&current->p_data[address], &value, 4);
+            memcpy(&current->p_data[address], value, 4);
             return;
         }
         current = current->next;
@@ -164,6 +164,35 @@ void lw_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
             int32_t fourth = current->p_data[address+3] << 24;
             int32_t combined = (first | second | third | fourth);
             p_vm->registers[reg_index] = combined;
+            return;
+        }
+        current = current->next;
+    }
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+}
+
+void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
+    Node* current = p_vm->heap_memory.head;
+    while (current != NULL) {
+        if (address >= current->start_address && (address+3) <= (current->start_address + current->size)) {
+            address -= current->start_address;
+            p_vm->registers[reg_index] = (uint32_t) current->p_data[address];
+            return;
+        }
+        current = current->next;
+    }
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC]);
+}
+
+void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
+    Node* current = p_vm->heap_memory.head;
+    while (current != NULL) {
+        if (address >= current->start_address && (address+3) <= (current->start_address + current->size)) {
+            address -= current->start_address;
+            int32_t first = current->p_data[address];
+            int32_t second = current->p_data[address+1] << 8;
+            int32_t combined = ((first | second) << 16) >> 16;
+            p_vm->registers[reg_index] = (uint32_t) combined;
             return;
         }
         current = current->next;

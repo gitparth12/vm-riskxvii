@@ -1,4 +1,5 @@
 #include "vm_functions.h"
+#include "heap.h"
 #include <string.h>
 
 // bool compare_bits(uint32_t value, int start_bit, int n_bits, uint32_t bin_number) {
@@ -160,8 +161,8 @@ void lb(blob* p_vm, uint32_t instruction) {
     // printf("lb: %x\n", memory_addr);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        lb_h(p_vm, rd, memory_addr);
     }
     else if (memory_addr == 0x812) {
         if (rd != 0)
@@ -192,8 +193,8 @@ void lh(blob* p_vm, uint32_t instruction) {
     // printf("lh: %x\n", memory_addr);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        lh_h(p_vm, rd, memory_addr);
     }
     else if (memory_addr == 0x812) {
         if (rd != 0)
@@ -225,8 +226,8 @@ void lw(blob* p_vm, uint32_t instruction) {
     // printf("lw: %x\n", memory_addr);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        lw_h(p_vm, rd, memory_addr);
     }
     else if (memory_addr == 0x812) {
         if (rd != 0)
@@ -259,8 +260,8 @@ void lbu(blob* p_vm, uint32_t instruction) {
     // printf("lbu: m[%d]: %d, rs1: %d, rs1_val: %d, rd: %d, rd_val: %d, imm: %d\n", memory_addr - DATA_MEM_SIZE,p_vm->data_mem[memory_addr - DATA_MEM_SIZE], rs1, p_vm->registers[rs1], rd, p_vm->registers[rd], imm);
 
     if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        lbu_h(p_vm, rd, memory_addr);
     }
     else if (memory_addr == 0x812) {
         if (rd != 0)
@@ -284,10 +285,8 @@ void lhu(blob* p_vm, uint32_t instruction) {
     uint32_t rs1 = get_number(instruction, 15, 5);
     int32_t imm = (get_number(instruction, 20, 12) << 20) >> 20; // Sign extended
     int32_t memory_addr = p_vm->registers[rs1] + imm;
-    if (memory_addr <= 0x3ff) { // Instruction memory or negative address
-        call_illegal_op(p_vm, instruction);
-    }
-    else if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
+
+    if (memory_addr >= 0x400 && memory_addr <= 0x7ff) { // Data Memory
         memory_addr -= 0x400;
         int32_t first = p_vm->data_mem[memory_addr]; // Read first 8 bits
         int32_t second = p_vm->data_mem[memory_addr+1] << 8; // Read second 8 bits
@@ -296,8 +295,8 @@ void lhu(blob* p_vm, uint32_t instruction) {
             p_vm->registers[rd] = (uint16_t) combined; // Store value in R[rd]
     }
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        lhu_h(p_vm, rd, memory_addr);
     }
     else if (memory_addr >= 0x850) {
         call_illegal_op(p_vm, instruction);
@@ -333,8 +332,8 @@ void sb(blob* p_vm, uint32_t instruction) {
         memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 1);
     }
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        sb_h(p_vm, &p_vm->registers[rs2], memory_addr);
     }
     else if (memory_addr >= 0x850) {
         call_illegal_op(p_vm, instruction);
@@ -390,8 +389,8 @@ void sh(blob* p_vm, uint32_t instruction) {
         memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 2);
     }
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        sh_h(p_vm, &p_vm->registers[rs2], memory_addr);
     }
     else if (memory_addr >= 0x850) {
         call_illegal_op(p_vm, instruction);
@@ -446,8 +445,8 @@ void sw(blob* p_vm, uint32_t instruction) {
         memcpy(&p_vm->data_mem[memory_addr], &p_vm->registers[rs2], 4);
     }
     else if (memory_addr >= 0xb700 && memory_addr <= 0xd700) { // Heap banks
-        memory_addr -= 0xb700;
-        // Assign value to heap memory (to be implemented)
+        // Assign value to heap memory
+        sw_h(p_vm, &p_vm->registers[rs2], memory_addr);
     }
     else if (memory_addr >= 0x850) {
         call_illegal_op(p_vm, instruction);

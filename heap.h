@@ -41,10 +41,17 @@ typedef struct blob {
     Heap heap_memory;
 } blob;
 
-uint8_t get_num_banks(uint32_t malloc_size);
-uint32_t my_malloc(blob* p_vm, uint32_t malloc_size);
-void my_free(blob* p_vm, uint32_t address);
-
+extern uint8_t get_num_banks(uint32_t malloc_size);
+extern uint32_t my_malloc(blob* p_vm, uint32_t malloc_size);
+extern void my_free(blob* p_vm, uint32_t address);
+extern void sb_h(blob* p_vm, uint32_t* value, uint32_t address);
+extern void sh_h(blob* p_vm, uint32_t* value, uint32_t address);
+extern void sw_h(blob* p_vm, uint32_t* value, uint32_t address);
+extern void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address);
+extern void lh_h(blob* p_vm, uint32_t reg_index, uint32_t address);
+extern void lw_h(blob* p_vm, uint32_t reg_index, uint32_t address);
+extern void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address);
+extern void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address);
 
 
 #endif
