@@ -3,12 +3,6 @@
 #include "linked_list.h"
 #include <math.h>
 
-uint8_t get_num_banks(uint32_t malloc_size) {
-    if (malloc_size % 64 == 0)
-        return (uint8_t) malloc_size / 64;
-    return (uint8_t) (malloc_size / 64) + 1;
-}
-
 uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
 
     if (malloc_size > 0x2000)
@@ -65,6 +59,33 @@ uint32_t my_malloc(blob* p_vm, uint32_t malloc_size) {
 }
 
 
+void my_free(blob* p_vm, uint32_t address) {
+    Node* current = p_vm->heap_memory.head;
+    Node* previous = p_vm->heap_memory.head;
+    while (current != NULL) {
+        if (current->start_address == address) {
+            if (current == p_vm->heap_memory.head) {
+                p_vm->heap_memory.head = current->next;
+                free(p_vm->heap_memory.head->p_data);
+                free(p_vm->heap_memory.head);
+                return;
+            }
+            else {
+                previous->next = current->next;
+                free(current->p_data);
+                free(current);
+                return;
+            }
+        }
+        previous = current;
+        current = current->next;
+    }
+    call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
+}
 
 
-void my_free(uint32_t address);
+uint8_t get_num_banks(uint32_t malloc_size) {
+    if (malloc_size % 64 == 0)
+        return (uint8_t) malloc_size / 64;
+    return (uint8_t) (malloc_size / 64) + 1;
+}

@@ -367,6 +367,10 @@ void sb(blob* p_vm, uint32_t instruction) {
             // malloc
             p_vm->registers[28] = my_malloc(p_vm, p_vm->registers[rs2]);
             break;
+        case 0x834:
+            // free
+            my_free(p_vm, p_vm->registers[rs2]);
+            break;
     }
     p_vm->PC += 4;
     // printf("sb: rs1: %d, rs2: %d, imm: %d, memory_addr: %d\n", p_vm->registers[rs1], p_vm->registers[rs2], imm, memory_addr);
@@ -420,6 +424,10 @@ void sh(blob* p_vm, uint32_t instruction) {
             // malloc
             p_vm->registers[28] = my_malloc(p_vm, p_vm->registers[rs2]);
             break;
+        case 0x834:
+            // free
+            my_free(p_vm, p_vm->registers[rs2]);
+            break;
     }
     p_vm->PC += 4;
 }
@@ -471,6 +479,10 @@ void sw(blob* p_vm, uint32_t instruction) {
         case 0x830:
             // malloc
             p_vm->registers[28] = my_malloc(p_vm, p_vm->registers[rs2]);
+            break;
+        case 0x834:
+            // free
+            my_free(p_vm, p_vm->registers[rs2]);
             break;
     }
     p_vm->PC += 4;
