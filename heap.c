@@ -95,7 +95,7 @@ void sb_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("sb Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -109,7 +109,7 @@ void sh_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("sh Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -123,7 +123,7 @@ void sw_h(blob* p_vm, uint32_t* value, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("sw Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -137,7 +137,7 @@ void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("lb Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -154,7 +154,7 @@ void lh_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("lh Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -173,7 +173,7 @@ void lw_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("lw Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -187,7 +187,7 @@ void lbu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("lbu Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
@@ -204,7 +204,7 @@ void lhu_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
         }
         current = current->next;
     }
-    printf("Address: %x\n", address);
+    printf("lhu Address: %x\n", address);
     call_illegal_op(p_vm, p_vm->inst_mem[p_vm->PC / 4]);
 }
 
