@@ -133,7 +133,7 @@ void lb_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
     while (current != NULL) {
         if (address >= current->start_address && (address+3) <= (current->start_address + current->size)) {
             address -= current->start_address;
-            p_vm->registers[reg_index] = current->p_data[address];
+            p_vm->registers[reg_index] = (int8_t) current->p_data[address];
             return;
         }
         current = current->next;
@@ -150,7 +150,7 @@ void lh_h(blob* p_vm, uint32_t reg_index, uint32_t address) {
             int32_t first = current->p_data[address];
             int32_t second = current->p_data[address+1] << 8;
             int32_t combined = ((first | second) << 16) >> 16;
-            p_vm->registers[reg_index] = combined;
+            p_vm->registers[reg_index] = (int16_t) combined;
             return;
         }
         current = current->next;
