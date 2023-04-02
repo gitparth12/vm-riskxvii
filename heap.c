@@ -4,7 +4,7 @@
 #include <math.h>
 
 uint8_t get_num_banks(uint32_t malloc_size) {
-    if (malloc_size % 64)
+    if (malloc_size % 64 == 0)
         return (uint8_t) malloc_size / 64;
     return (uint8_t) (malloc_size / 64) + 1;
 }

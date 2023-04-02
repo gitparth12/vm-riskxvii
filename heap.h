@@ -41,6 +41,7 @@ typedef struct blob {
     Heap heap_memory;
 } blob;
 
+uint8_t get_num_banks(uint32_t malloc_size);
 uint32_t my_malloc(blob* p_vm, uint32_t malloc_size);
 void my_free(uint32_t address);
 
